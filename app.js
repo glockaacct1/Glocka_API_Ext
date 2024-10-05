@@ -6,7 +6,14 @@ const cors = require('cors');
 const https = require('https');
 const fs = require('fs');
 
-app.use(cors());
+const corsOptions = {
+    origin: ['https://13.250.44.165', 'https://localhost:3000', 'https://127.0.0.1:3000'], // Ganti dengan alamat yang diizinkan
+    methods: 'GET,POST,PUT,DELETE', // Metode HTTP yang diizinkan
+    allowedHeaders: 'Content-Type,Authorization', // Header yang diizinkan
+    credentials: true, // Mengizinkan kredensial (cookies, header otorisasi)
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(formData.parse());
@@ -104,7 +111,6 @@ app.delete('/web-data/:id', function (req, res) {
     });
 });
 
-// Konfigurasi HTTPS
 const options = {
     key: fs.readFileSync('privatekey.pem'),
     cert: fs.readFileSync('certificate.pem')
